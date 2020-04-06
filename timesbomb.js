@@ -18,6 +18,9 @@ module.exports = class TimesBomb {
   static min_players = 4;
   static max_players = 8;
 
+  static rules() {
+    return "**TODO**";
+  }
 
   constructor(players, channel) {
     this.players = players;

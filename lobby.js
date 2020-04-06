@@ -11,9 +11,9 @@ const Lobby = {
     let message = '<@' + user.id + '> wants to play ' + game.name + '. ' + game.emoji + '\n' +
                   'Waiting for **' + game.min_players + ' to ' + game.max_players + '** players.\n' +
                   'Join the game and choose you avatar by adding a reaction to this message.\n' +
-                  ':arrow_forward: : start the game.\n' +
-                  ':question: : display the rules.\n' +
-                  ':x: : cancel the game.';
+                  '✅ → start the game.\n' +
+                  '❓ → display the rules.\n' +
+                  '❌ → cancel the game.';
     if (players.length) {
       message += '\n> Players:';
       for (player of players)
@@ -61,7 +61,7 @@ const Lobby = {
       let players = [];
 
       const sent_message = await channel.send(this.generate_message(user, game, players));
-      await sent_message.react('▶️');
+      await sent_message.react('✅');
       await sent_message.react('❓');
       await sent_message.react('❌');
 
@@ -70,22 +70,22 @@ const Lobby = {
 
       collector.on('collect', async (reaction, user) => {
         const a = reaction.emoji;
-        if (a.name == '▶️') {
-          collector.stop();
+        if (a.name == '✅') {
           if (game.min_players <= players.length && players.length <= game.max_players) {
+            collector.stop();
             channel.send('Starting a game of ' + game.name + '. ' + game.emoji);
             const game_instance = new game(players, channel);
             await game_instance.start();
             this.cancel(channel);
           }
         } else if (a.name == '❓') {
-          await channel.send('Rules: ................................... **TODO**');
+          await channel.send('Rules:\n' + game.rules());
         } else if (a.name == '❌') {
           collector.stop();
           sent_message.delete();
           this.cancel(channel);
         } else {
-          let allowed = players.reduce((acc, player) => acc && (player.avatar != a && player.user != user), true);
+          let allowed = players.reduce((acc, player) => acc && (player.avatar != a /*&& player.user != user*/), true);
           if (allowed) {
             players.push({avatar: a, user: user});
             sent_message.edit(this.generate_message(user, game, players));

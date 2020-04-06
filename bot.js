@@ -7,11 +7,13 @@ const Lobby = require('./lobby.js')
 client.on('ready', () => {
   console.log('I am ready!');
   Lobby.init(client,  {
-    "timesbomb": require('./timesbomb.js')
+    "timesbomb": require('./timesbomb.js'),
+    "codenames": require('./codenames.js')
   });
 });
 
 
+const Codenames = require('./codenames.js')
 // Create an event listener for messages
 client.on('message', message => {
   if (message.content.substring(0, 1) == '!') {
@@ -24,6 +26,9 @@ client.on('message', message => {
       case 'cancel':
         Lobby.cancel(message.channel);
         break;
+      case 'pause':
+        message.channel.send(':bell: @everyone C\'est la pause !!! :bell:');
+        break;
       default:
         message.channel.send('Unknown command');
         break;
@@ -31,5 +36,5 @@ client.on('message', message => {
   }
 });
 
-// Log our bot in using the token from https://discordapp.com/developers/applications/me
+// Log our bot in using the token from https://discordapp.com/developers/applications
 client.login(require('./auth.json').token);
