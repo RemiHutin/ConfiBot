@@ -1,0 +1,12 @@
+{
+  "name": "confibot",
+  "version": "1.0.0",
+  "description": "ConfiBot",
+  "main": "bot.js",
+  "author": "Rémi Hutin",
+  "dependencies": {
+    "discord.js": "^12.0.2",
+    "save": "^2.4.0",
+    "winston": "^3.2.1"
+  }
+}
