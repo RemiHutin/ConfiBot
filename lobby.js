@@ -1,3 +1,4 @@
+const Player = require('./player.js');
 
 const Lobby = {
   debug_mode: false, // if true, one user can join a game several times
@@ -36,6 +37,7 @@ const Lobby = {
 
     const game = this.games[game_name];
     if (game == undefined) {
+
       let message = 'Here are the games I can play with you:\n';
       let emoji_list = [];
       for (let [key, value] of Object.entries(this.games)) {
@@ -57,7 +59,6 @@ const Lobby = {
           this.play(key, user, channel);
       }
 
-
     } else {
 
       let players = [];
@@ -67,10 +68,10 @@ const Lobby = {
       await sent_message.react('❓');
       await sent_message.react('❌');
 
-      const collector = sent_message.createReactionCollector((reaction, user) => user.id != this.client.user.id, {dispose: true});
+      const collector = sent_message.createReactionCollector((reaction, reaction_user) => reaction_user.id != this.client.user.id, {dispose: true});
       this.running_games.set(channel, collector);
 
-      collector.on('collect', async (reaction, user) => {
+      collector.on('collect', async (reaction, reaction_user) => {
         const a = reaction.emoji;
         if (a.name == '✅') {
           if (game.min_players <= players.length && players.length <= game.max_players) {
@@ -87,17 +88,17 @@ const Lobby = {
           sent_message.delete();
           this.cancel(channel);
         } else {
-          let allowed = players.reduce((acc, player) => acc && (player.avatar != a && (player.user != user || this.debug_mode)), true);
+          let allowed = players.reduce((acc, player) => acc && (player.avatar != a && (player.user != reaction_user || this.debug_mode)), true);
           if (allowed) {
-            players.push({avatar: a, user: user});
+            players.push(new Player(reaction_user, a));
             sent_message.edit(this.generate_message(user, game, players));
           }
         }
       });
 
-      collector.on('remove', (reaction, user) => {
+      collector.on('remove', (reaction, reaction_user) => {
         const a = reaction.emoji;
-        players = players.filter(player => !(player.avatar == a && player.user == user));
+        players = players.filter(player => !(player.avatar == a && player.user == reaction_user));
         sent_message.edit(this.generate_message(user, game, players));
       });
     }
