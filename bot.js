@@ -11,9 +11,8 @@ client.on('ready', () => {
     "codenames": require('./codenames.js'),
     "coup": require('./coup.js'),
     "coinflip": require('./coinflip.js')
-  });
+  }, process.argv[2] == "-debug");
 });
-
 
 // Create an event listener for messages
 client.on('message', message => {

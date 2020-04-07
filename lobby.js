@@ -1,13 +1,14 @@
 const Player = require('./player.js');
 
 const Lobby = {
-  debug_mode: true, // if true, one user can join a game several times
-
   running_games: new Map(),
 
-  init(client, games) {
+  init(client, games, debug_mode = false) {
     this.client = client;
     this.games = games;
+    this.debug_mode = debug_mode; // if true, one user can join a game several times
+    if (this.debug_mode)
+      console.log('Debug mode is activated!');
   },
 
   generate_message(user, game, players) {
