@@ -1,9 +1,7 @@
 const assert = require('assert');
 const Deck = require('./deck.js');
+const Player = require('./player.js');
 
-function mention_player(player) {
-  return player.avatar.toString() + ' <@' + player.user.id + '>';
-}
 
 function same_emoji(a1, a2) {
   if (a1.id == null && a2.id == null)
@@ -48,7 +46,7 @@ module.exports = class TimesBomb {
     const sent_message = await this.channel.send('Sending roles...');
     const promises = this.players.map(player => {
       player.role = roles.draw();
-      return player.user.send('Hello ' + mention_player(player) + '\nYour team: ' + player.role);
+      return player.user.send('Hello ' + player.mention() + '\nYour team: ' + player.role);
     });
 
     await Promise.all(promises);
@@ -68,8 +66,8 @@ module.exports = class TimesBomb {
     if (winner == "Moriarty")
       await this.channel.send("https://tenor.com/view/explode-blast-blow-nuclear-boom-gif-15025770");
     await this.channel.send('Game Over!\nTeam ' + winner + ' wins!\n' +
-      ':blue_square: Team Sherlock :blue_square: : ||' + this.players.filter(player => player.role == ':blue_square: Sherlock :blue_square:').map(player => mention_player(player)).join('||, ||') + '||\n' +
-      ':red_square: Team Moriarty :red_square: : ||' + this.players.filter(player => player.role == ':red_square: Moriarty :red_square:').map(player => mention_player(player)).join('||, ||') + '||');
+      ':blue_square: Team Sherlock :blue_square: : ||' + this.players.filter(player => player.role == ':blue_square: Sherlock :blue_square:').map(player => player.mention()).join('||, ||') + '||\n' +
+      ':red_square: Team Moriarty :red_square: : ||' + this.players.filter(player => player.role == ':red_square: Moriarty :red_square:').map(player => player.mention()).join('||, ||') + '||');
   }
 
 
@@ -131,7 +129,7 @@ module.exports = class TimesBomb {
       message += '\n' + player.avatar.toString() + ' : ' + player.revealed.join('');
     }
     message += '\n Your need to find **' + this.wires_left + '** :scissors: to defuse the bomb.';
-    message += '\n' + mention_player(current_player) + ' : it\'s your turn. Cut a wire in someone else\'s hand.';
+    message += '\n' + current_player.mention() + ' : it\'s your turn. Cut a wire in someone else\'s hand.';
 
     const sent_message = await this.channel.send(message);
 
@@ -163,8 +161,8 @@ module.exports = class TimesBomb {
     selected_player.revealed[hand_index] = selected_wire;
 
     await this.channel.send('**Cut (' + current_cut + '/' + this.players.length + ')** - ' +
-                            mention_player(current_player) + ' cuts a wire in ' +
-                            mention_player(selected_player) + '\'s hand: ' + selected_wire);
+                            current_player.mention() + ' cuts a wire in ' +
+                            selected_player.mention() + '\'s hand: ' + selected_wire);
 
     if (selected_wire == '💥') {
       return 'Moriarty';

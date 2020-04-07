@@ -1,13 +1,10 @@
 const assert = require('assert');
 const Deck = require('./deck.js');
+const Player = require('./player.js');
 
 const Dict = require('./codenames_dict.json');
 
 
-
-function mention_player(player) {
-  return player.avatar.toString() + ' <@' + player.user.id + '>';
-}
 
 
 module.exports = class Codenames {
@@ -74,8 +71,8 @@ module.exports = class Codenames {
     let message = '';
     for (let team of Codenames.team_symbols) {
       message += 'Team ' + team + '\n';
-      message += '> Spymaster: ' + mention_player(this.spymasters[team]) + '\n';
-      message += '> Spies: ' + this.players.filter(player => player.role == team).map(player => mention_player(player)).join(', ') + '\n';
+      message += '> Spymaster: ' + this.spymasters[team].mention() + '\n';
+      message += '> Spies: ' + this.players.filter(player => player.role == team).map(player => player.mention()).join(', ') + '\n';
     }
     await this.channel.send(message);
 
@@ -123,13 +120,13 @@ module.exports = class Codenames {
   edit_clue_message() {
     const current_spymaster = this.spymasters[this.current_team];
     if (this.current_clue == undefined) {
-      this.clue_message.edit('Waiting for a clue from ' + this.current_team + ' spymaster (' + mention_player(current_spymaster) + ')');
+      this.clue_message.edit('Waiting for a clue from ' + this.current_team + ' spymaster (' + current_spymaster.mention() + ')');
     } else {
       this.clue_message.edit(this.current_team + ' spymaster sent a clue!\n'
         + 'The clue word is: **' + this.current_clue.word + '**\n'
         + 'The clue number is: **' + this.current_clue.number + '**\n'
         + 'Team ' + this.current_team
-        + ' (' + this.players.filter(player => player.role == this.current_team).map(player => mention_player(player)).join(', ') + '), '
+        + ' (' + this.players.filter(player => player.role == this.current_team).map(player => player.mention()).join(', ') + '), '
         + 'you have **' + this.number_guesses + '** guess(es) left.');
     }
   }

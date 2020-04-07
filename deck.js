@@ -35,8 +35,4 @@ module.exports = class Deck {
   draw(n = 1) {
     return this.cards.splice(0, n);
   }
-
-  deal() {
-    return false
-  }
 }

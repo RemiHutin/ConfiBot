@@ -1,10 +1,6 @@
 const assert = require('assert');
 const Deck = require('./deck.js');
-
-
-function mention_player(player) {
-  return player.avatar.toString() + ' <@' + player.user.id + '>';
-}
+const Player = require('./player.js');
 
 module.exports = class CoinFlip {
   static name = "CoinFlip Battle Royale";
@@ -34,7 +30,7 @@ module.exports = class CoinFlip {
 
       setTimeout(() => {
         const winner = deck.draw()[0];
-        sent.edit('Flipping the coins... ' + mention_player(winner) + ' wins!');
+        sent.edit('Flipping the coins... ' + winner.mention() + ' wins!');
         resolve();
       }, 3000);
     });
