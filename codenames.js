@@ -125,7 +125,7 @@ module.exports = class Codenames {
       this.clue_message.edit(this.current_team + ' spymaster sent a clue!\n'
         + 'The clue word is: **' + this.current_clue.word + '**\n'
         + 'The clue number is: **' + this.current_clue.number + '**\n'
-        + this.current_team + ' Team ' +
+        + this.current_team + ' Team '
         + '(' + this.players.filter(player => player.role == this.current_team).map(player => player.mention()).join(', ') + '), '
         + 'you have **' + this.number_guesses + '** guess(es) left.'
         + (this.current_clue.word == 'Maïté' ? '\nhttps://tenor.com/view/ortolan-mistermv-derri%c3%a8re-ma%c3%aft%c3%a9-gif-16740074' : ''));
