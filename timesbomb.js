@@ -1,5 +1,5 @@
 const assert = require('assert');
-const Deck = require('./deck.js')
+const Deck = require('./deck.js');
 
 function mention_player(player) {
   return player.avatar.toString() + ' <@' + player.user.id + '>';

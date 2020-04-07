@@ -1,5 +1,7 @@
 
 const Lobby = {
+  debug_mode: false, // if true, one user can join a game several times
+
   running_games: new Map(),
 
   init(client, games) {
@@ -10,7 +12,7 @@ const Lobby = {
   generate_message(user, game, players) {
     let message = '<@' + user.id + '> wants to play ' + game.name + '. ' + game.emoji + '\n' +
                   'Waiting for **' + game.min_players + ' to ' + game.max_players + '** players.\n' +
-                  'Join the game and choose you avatar by adding a reaction to this message.\n' +
+                  'Join the game and choose your avatar by adding a reaction to this message.\n' +
                   '✅ → start the game.\n' +
                   '❓ → display the rules.\n' +
                   '❌ → cancel the game.';
@@ -85,7 +87,7 @@ const Lobby = {
           sent_message.delete();
           this.cancel(channel);
         } else {
-          let allowed = players.reduce((acc, player) => acc && (player.avatar != a /*&& player.user != user*/), true);
+          let allowed = players.reduce((acc, player) => acc && (player.avatar != a && (player.user != user || this.debug_mode)), true);
           if (allowed) {
             players.push({avatar: a, user: user});
             sent_message.edit(this.generate_message(user, game, players));
@@ -102,6 +104,7 @@ const Lobby = {
   },
 
   cancel(channel) {
+    channel.send('The game has been cancelled');
     if (this.running_games.has(channel))
       this.running_games.get(channel).stop();
     this.running_games.delete(channel);

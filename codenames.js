@@ -1,95 +1,80 @@
 const assert = require('assert');
-const Deck = require('./deck.js')
+const Deck = require('./deck.js');
 
+const Dict = require('./codenames_dict.json');
 
-const WORDS = "ACCIDENT, ACHAT, ACNE, ACTION, ADOLESCENT, AFRIQUE, AIGUILLE, ALLUMER, ALPES, ALPHABET, ALTITUDE, AMERIQUE, AMI, AMOUR, AMPOULE, ANNIVERSAIRE, APPETIT, ARAIGNEE, ARBRE, ARC, ARC-EN-CIEL, ARGENT, ARME, ARMEE, ASCENSEUR, ASIE, ASSIS, ASTRONAUTE, ATCHOUM, ATHLETE, ATLANTIDE, AUBE, AUSTRALIE, AVEC, AVENTURE, AVION, AVOCAT, BAC, BAGUETTE, BAIN, BAISER, BALAI, BALLE, BALLON, BAMBOU, BANANE, BANNIR, BARBE, BARRIERE, BAS, BASKET, BATEAU, BATON, BATTERIE, BEBE, BEETHOVEN, BETE, BIBERON, BIERE, BLANC, BLE, BLEU, BOB, BOISSON, BOITE, BOMBE, BONBON, BONNET, BORD, BORDEAUX, BOTTE, BOUE, BOUGIE, BOULE, BOUTEILLE, BOUTON, BRANCHE, BRAS, BRAVO, BRETAGNE, BRISE, BROSSE, BRUIT, BRUME, BRUN, BÛCHE, BULLE, BUREAU, BUT, CABANE, CABINE, CACHER, CADEAU, CAFARD, CAFE, CAISSE, CALCULER, CALME, CAMERA, CAMION, CAMPING, CANADA, CANARD, CANETTE, CANINE, CAP, CAPITALISME, CAR, CAROTTE, CARRE, CARTE, CARTON, CASQUE, CASSER, CASSETTE, CAUCHEMAR, CAUSE, CEINTURE, CELLULE, CERCLE, CHAINE, CHAIR, CHAISE, CHAMP, CHAMPION, CHANT, CHAPEAU, CHARBON, CHARGE, CHASSE, CHAT, CHATEAU, CHAUD, CHAUSSURE, CHAUVE, CHEF, CHEMISE, CHENE, CHER, CHEVAL, CHEVALIER, CHEVEU, CHIEN, CHIFFRE, CHINE, CHOCOLAT, CHOMAGE, CIEL, CIL, CINEMA, CIRE, CIRQUE, CITRON, CLE, CLOU, CLOWN, COACH, COCCINELLE, CODE, CŒUR, COL, COLLE, COLLINE, COLONNE, CONE, CONFORT, CONTINU, CONTRE, CONVERSATION, COPAIN, COQ, COQUILLAGE, CORBEAU, CORDE, CORPS, COTE, COUDE, COULOIR, COUP, COUR, COURANT, COURRIER, COURS, COURSE, COURT, COUTEAU, COUVERT, COUVERTURE, COWBOY, CRAC, CRAYON, CREME, CRITIQUE, CROCHET, CROIX, CROÛTE, CUILLERE, CUIR, CUISINE, CULOTTE, CYCLE, DARD, DE, DEBOUT, DEFAUT, DEHORS, DEMOCRATIE, DENT, DENTISTE, DESSIN, DEVOIR, DIAMANT, DICTIONNAIRE, DIEU, DINOSAURE, DISCOURS, DISQUE, DIX, DOCTEUR, DOIGT, DOMINO, DORMIR, DROIT, EAU, ECHEC, ECHELLE, ECLAIR, ECOLE, ECRAN, ECRASER, ECRIT, EGLISE, EGOUT, ELECTRICITE, ELEPHANT, ELEVE, ELFE, EMPREINTE, ENCEINTE, EPICE, EPINE, ERREUR, ESPACE, ESPION, ESSENCE, ETAT, ETE, ETOILE, ETRANGER, EVENTAIL, EVOLUTION, EXPLOSION, EXTENSION, FACE, FAN, FARCE, FATIGUE, FAUTEUIL, FEMME, FENETRE, FER, FETE, FEU, FEUILLE, FIDELE, FIL, FILLE, FLAMME, FLECHE, FLEUR, FLEUVE, FOND, FOOTBALL, FORET, FORGER, FOUDRE, FOUET, FOUR, FOURMI, FROID, FROMAGE, FRONT, FRUIT, FUIR, FUTUR, GARÇON, GATEAU, GAUCHE, GAZ, GAZON, GEL, GENOU, GLACE, GOMME, GORGE, GOUTTE, GRAND, GRECE, GRENOUILLE, GRIPPE, GRIS, GROS, GROUPE, GUITARE, HASARD, HAUT, HELICOPTERE, HERBE, HEUREUX, HISTOIRE, HIVER, HOTEL, HUGO, HUILE, HUMIDE, HUMOUR, INDICE, INTERNET, INVITER, ITALIE, JACQUES, JAMBE, JAMBON, JARDIN, JAUNE, JEAN, JEANNE, JET, JEU, JOGGING, JOUR, JOURNAL, JUPITER, KILO, KIWI, LAINE, LAIT, LANGUE, LAPIN, LATIN, LAVER, LECTEUR, LEGER, LENT, LETTRE, LIEN, LIGNE, LINGE, LION, LIT, LIVRE, LOI, LONG, LOUIS, LOUP, LUMIERE, LUNDI, LUNE, LUNETTE, MACHINE, MACHO, MAIN, MAISON, MAITRESSE, MAL, MALADIE, MAMAN, MAMMOUTH, MANGER, MARAIS, MARC, MARCHE, MARIAGE, MARIE, MARIEE, MARQUE, MARSEILLE, MASSE, MER, MESSE, METRE, METRO, MIAOU, MICRO, MIEUX, MILLE, MINE, MIROIR, MODERNE, MOITIE, MONDE, MONSTRE, MONTAGNE, MONTRE, MORT, MOTEUR, MOTO, MOU, MOUCHE, MOULIN, MOUSTACHE, MOUTON, MUR, MUSCLE, MUSIQUE, MYSTERE, NAGE, NATURE, NEIGE, NEUTRE, NEW YORK, NEZ, NID, NINJA, NIVEAU, NOËL, NŒUD, NOIR, NOUS, NUAGE, NUIT, NUMERO, ŒIL, ŒUF, OISEAU, OLYMPIQUE, OMBRE, ONGLE, OR, ORAL, ORANGE, ORDINATEUR, ORDRE, ORDURE, OREILLE, ORGANE, ORGUEIL, OURS, OUTIL, OUVERT, OVALE, PAIN, PALAIS, PANNEAU, PANTALON, PANTIN, PAPA, PAPIER, PAPILLON, PARADIS, PARC, PARIS, PAROLE, PARTIE, PASSE, PATE, PATIN, PATTE, PAUL, PAYER, PECHE, PEINTURE, PENDULE, PENSER, PERSONNE, PETIT, PEUR, PHILOSOPHE, PHOTO, PHRASE, PIANO, PIECE, PIED, PIERRE, PILE, PILOTE, PINCE, PIOCHE, PION, PIRATE, PIRE, PISCINE, PLACE, PLAFOND, PLAGE, PLAIE, PLAN, PLANCHE, PLANETE, PLANTE, PLASTIQUE, PLAT, PLOMB, PLONGER, PLUIE, POCHE, POETE, POIDS, POING, POINT, POIVRE, POLICE, POLITIQUE, POLLEN, POLO, POMME, POMPE, PONT, POPULATION, PORT, PORTE, PORTEFEUILLE, POSITIF, POSTE, POUBELLE, POULE, POUPEE, POUSSER, POUSSIERE, POUVOIR, PREHISTOIRE, PREMIER, PRESENT, PRESSE, PRIER, PRINCESSE, PRISE, PRIVE, PROFESSEUR, PSYCHOLOGIE, PUBLIC, PULL, PUNK, PUZZLE, PYJAMA, QUATRE, QUINZE, RACE, RADIO, RAISIN, RAP, RAYE, RAYON, REFLECHIR, REINE, REPAS, REPTILE, REQUIN, REVE, RICHE, RIDEAU, RIEN, RIRE, ROBINET, ROCHE, ROI, ROND, ROSE, ROUE, ROUGE, ROUILLE, ROUX, RUSSIE, SABLE, SABRE, SAC, SAIN, SAISON, SALE, SALLE, SALUT, SAMU, SANDWICH, SANG, SAPIN, SATELLITE, SAUMON, SAUT, SAVOIR, SCHTROUMPF, SCIENCE, SCOUT, SEC, SEINE, SEL, SEPT, SERPENT, SERRER, SEXE, SHAMPOOING, SIECLE, SIEGE, SIESTE, SILHOUETTE, SIRENE, SKI, SOLEIL, SOMMEIL, SON, SONNER, SORCIERE, SOURD, SOURIS, SPORT, STAR, STATION, STYLO, SUR, SURFACE, SUSHI, SWING, TABLEAU, TACHE, TAILLE, TANTE, TAPIS, TARD, TAXI, TELEPHONE, TELEVISION, TEMPLE, TEMPS, TENNIS, TETE, THE, TIGRE, TINTIN, TISSU, TITRE, TOAST, TOILETTE, TOKYO, TOMBE, TON, TOP, TOUCHE, TOUJOURS, TOUR, TOURNOI, TOUT, TRACE, TRAIN, TRAINER, TRANSPORT, TRAVAIL, TRESOR, TRIANGLE, TRISTE, TRONE, TROUPEAU, TSAR, TUBE, TUER, TUPPERWARE, TUYAU, TWITTER, TYPE, UNIVERSITE, VACHE, VAGUE, VAISSELLE, VALEUR, VER, VERDICT, VERRE, VERS, VERT, VESTE, VIANDE, VIDE, VIE, VIEUX, VILLE, VIN, VINGT, VIOLON, VIPERE, VISION, VITE, VIVE, VŒU, VOILE, VOISIN, VOITURE, VOL, VOLUME, VOTE, VOULOIR, VOYAGE, ZEN, ZERO, ZODIAQUE, ZONE, ZOO".split(', ');
 
 
 function mention_player(player) {
   return player.avatar.toString() + ' <@' + player.user.id + '>';
 }
 
-function other_team(team) {
-  if (team == '🟥')
-    return '🟦';
-  if (team == '🟦')
-    return '🟥';
-  return undefined;
-}
 
 module.exports = class Codenames {
   static name = "Codenames";
   static emoji = "🕵️";
-  static min_players = 2;
+  static min_players = 4;
   static max_players = 8;
 
+  static team_symbols = ['🟥', '🟦'];
+
   static rules() {
-    return "**TODO**";
+    return "The first two players to join the game are the spymasters.\n**TODO**";
   }
 
   constructor(players, channel) {
     this.players = players;
     this.channel = channel;
-    this.current_clue_word = undefined;
-    this.current_clue_number = undefined;
-    this.number_guesses = undefined;
+
+    assert(Codenames.min_players <= this.players.length &&
+           this.players.length <= Codenames.max_players,
+           'Codenames.constructor: invalid number of players.');
+
+    this.spymasters = {'🟥': this.players[0], '🟦': this.players[1]};
+    this.current_team = Codenames.team_symbols[Math.floor(Math.random()*2)];
+    this.number_agents = {'🟥': 8, '🟦': 8};
+    this.number_agents[this.current_team] += 1; // one more card for starting team
+
+    this.current_clue = undefined;
+    this.number_guesses = 0;
   }
 
-  static letters = ['🇦', '🇧', '🇨', '🇩', '🇪', '🇫', '🇬', '🇭', '🇮', '🇯', '🇰', '🇱', '🇲', '🇳', '🇴', '🇵', '🇶', '🇷', '🇸', '🇹', '🇺', '🇻', '🇼', '🇽', '🇾', '🇿'];
 
-  make_table(cards, spymaster) {
-    let count = {'🟥': '', '🟦': ''};
-    let text = '';
-    for (let row = 0; row < 5; row ++) {
-      text += '\n';
-      for (let col = 0; col < 5; col ++) {
-        const card = cards[row*5+col];
+  make_table(spymaster) {
+    let text = 'Agents left:\n';
+    for (let team of Codenames.team_symbols)
+      text += team.repeat(this.number_agents[team]) + '\n';
 
-        if (!card.revealed)
-          count[card.agent] += card.agent;
-
-        let symbol = card.revealed || spymaster ? card.agent : Codenames.letters[row*5+col];
-        let modif = card.revealed && !spymaster ? '||' : '';
-        text += symbol + modif + '**` ' + card.word + ' `**' + modif + symbol + '      ';
-      }
-      text += '\n';
+    for (const [index, card] of this.cards.entries()) {
+      let symbol = card.revealed || spymaster ? card.agent : card.letter;
+      let modif = card.revealed ? '||' : '';
+      if (index % 5 == 0)
+        text += '\n\n';
+      text += symbol + modif + '**` ' + card.word + ' `**' + modif + symbol + '      ';
     }
-    return 'Agents left:\n' + count['🟥'] + '\n' + count['🟦'] + '\n' + text;
-  }
 
-  async choose_team() {
-
-    let sent_team = await this.channel.send('Choose a team');
-    await sent_team.react('🟥');
-    await sent_team.react('🟦');
-
-    const filter = (reaction, user) => (reaction.emoji.name === '🟥' || reaction.emoji.name === '🟦') && user.id != sent_team.author.id;
-    let collected = await sent_team.awaitReactions(filter, { maxUsers: 1 });
-    console.log(collected);
-
-
+    return text + '\n\n⠀';
   }
 
   async assign_team() {
     let roles_deck = new Deck();
-    roles_deck.add('🟥 spymaster', 1);
-    roles_deck.add('🟦 spymaster', 1);
-    roles_deck.add('🟥', Math.ceil((this.players.length - 2) / 2));
-    roles_deck.add('🟦', Math.floor((this.players.length - 2) / 2));
 
-    for (let player of this.players)
+    for (let team of Codenames.team_symbols)
+      this.spymasters[team].role = team + ' spymaster';
+
+    roles_deck.add(Codenames.team_symbols[0], Math.ceil((this.players.length - 2) / 2));
+    roles_deck.add(Codenames.team_symbols[1], Math.floor((this.players.length - 2) / 2));
+
+    for (let player of this.players.slice(2))
       player.role = roles_deck.draw();
 
 
     assert(roles_deck.is_empty(), 'Codenames.assign_team: ' + roles_deck.size() + ' role(s) left.');
 
-    this.spymasters = new Map();
-
     let message = '';
-    for (let team of ['🟥', '🟦']) {
-      this.spymasters.set(team, this.players.filter(player => player.role == team + ' spymaster')[0]);
+    for (let team of Codenames.team_symbols) {
       message += 'Team ' + team + '\n';
-      message += '> Spymaster: ' + mention_player(this.spymasters.get(team)) + '\n';
+      message += '> Spymaster: ' + mention_player(this.spymasters[team]) + '\n';
       message += '> Spies: ' + this.players.filter(player => player.role == team).map(player => mention_player(player)).join(', ') + '\n';
     }
     await this.channel.send(message);
@@ -98,50 +83,61 @@ module.exports = class Codenames {
 
 
 
-
-  init_board() {
+  init_board(word_list) {
 
     let words_deck = new Deck();
-    words_deck.add(WORDS);
+    words_deck.add(word_list);
     words_deck.shuffle();
 
     const words = words_deck.draw(25);
     const length = Math.max(...words.map(word => word.length));
 
-    this.current_team = ['🟥', '🟦'][Math.floor(Math.random()*2)];
 
     let agents_deck = new Deck();
-    agents_deck.add('🟥', 8);
-    agents_deck.add('🟦', 8);
-    agents_deck.add(this.current_team, 1);
-    agents_deck.add('🕵️', 1);
+    for (let team of Codenames.team_symbols)
+      agents_deck.add(team, this.number_agents[team]);
     agents_deck.add('⬜', 7);
+    agents_deck.add('🕵️', 1);
     agents_deck.shuffle();
 
+    const letters = [
+      '🇦', '🇧', '🇨', '🇩', '🇪',
+      '🇫', '🇬', '🇭', '🇮', '🇯',
+      '🇰', '🇱', '🇲', '🇳', '🇴',
+      '🇵', '🇶', '🇷', '🇸', '🇹',
+      '🇺', '🇻', '🇼', '🇽', '🇾'
+    ];
 
     this.cards = words.map(word => {
-      const left = ' '.repeat(Math.trunc((length - word.length)/2));
+      const left = ' '.repeat(Math.ceil((length - word.length)/2));
       const right = ' '.repeat(length - word.length - left.length);
-      return {word: left + word + right, agent: agents_deck.draw(), revealed: false}
+      return {
+        word: left + word + right,
+        agent: agents_deck.draw()[0],
+        letter: letters.shift(),
+        revealed: false
+      }
     });
   }
 
   edit_clue_message() {
-    const current_spymaster = this.spymasters.get(this.current_team);
-    if (this.current_clue_word == undefined) {
+    const current_spymaster = this.spymasters[this.current_team];
+    if (this.current_clue == undefined) {
       this.clue_message.edit('Waiting for a clue from ' + this.current_team + ' spymaster (' + mention_player(current_spymaster) + ')');
     } else {
       this.clue_message.edit(this.current_team + ' spymaster sent a clue!\n'
-                      + 'The clue word is: **' + this.current_clue_word + '**\n'
-                      + 'The clue number is: **' + this.current_clue_number + '**\n'
-                      + 'Team ' + this.current_team + ', you have **' + this.number_guesses + '** guess(es) left.');
+        + 'The clue word is: **' + this.current_clue.word + '**\n'
+        + 'The clue number is: **' + this.current_clue.number + '**\n'
+        + 'Team ' + this.current_team
+        + ' (' + this.players.filter(player => player.role == this.current_team).map(player => mention_player(player)).join(', ') + '), '
+        + 'you have **' + this.number_guesses + '** guess(es) left.');
     }
   }
 
   async request_clue() {
 
-    const current_spymaster = this.spymasters.get(this.current_team);
-    await current_spymaster.user.send(current_spymaster.role + ', input your clue here. You need to input a word and a number, seperated with a space (example : *APPLE 2*)');
+    const current_spymaster = this.spymasters[this.current_team];
+    await current_spymaster.user.send(current_spymaster.role + ', input your clue here. You need to input a word and a number, separated with a space (example : *APPLE 2*)');
     const clue_collector = current_spymaster.user.dmChannel.createMessageCollector(m => m.author.id == current_spymaster.user.id);
 
     clue_collector.on('collect', message => {
@@ -149,115 +145,126 @@ module.exports = class Codenames {
       const words = str.split(' ');
       if (words.length != 2) {
         message.reply('Invalid input, try again');
-      } else {
-        const number = parseInt(words[1]);
-        if (isNaN(number)) {
-          message.reply('Invalid input, try again');
-        } else {
-          message.reply('Sending clue to the spies!');
-          this.current_clue_word = words[0];
-          this.current_clue_number = number;
-          this.number_guesses = number + 1;
-          this.edit_clue_message();
-          clue_collector.stop();
-        }
+        return;
       }
+      const number = parseInt(words[1]);
+      if (isNaN(number)) {
+        message.reply('Invalid input, try again');
+        return;
+      }
+      if (words[0].length <= 1) {
+        message.reply('Your word is too short');
+        return;
+      }
+      message.reply('Sending clue to the spies!');
+      this.current_clue = {word: words[0], number: number};
+      this.number_guesses = number + 1;
+      this.edit_clue_message();
+      clue_collector.stop();
     });
   }
 
-  async start() {
-
-    await this.assign_team();
-    this.init_board();
-
-
-
-    const sent_table = await this.channel.send(this.make_table(this.cards, false));
-    const revealed_table = this.make_table(this.cards, true);
-    for (let player of this.players) {
-      if (player.role == '🟥 spymaster' || player.role == '🟦 spymaster')
-        await player.user.send(revealed_table);
-    }
-
-    const current_spymaster = this.spymasters.get(this.current_team);
-    this.clue_message = await this.channel.send('Waiting for a clue from ' + this.current_team + ' spymaster (' + mention_player(current_spymaster) + ')');
-
+  next_turn() {
+    this.number_guesses = 0;
+    this.current_clue = undefined;
+    this.current_team = Codenames.team_symbols[1 - Codenames.team_symbols.indexOf(this.current_team)];
     this.request_clue();
+  }
 
-    for (let row = 0; row < 6; row++) {
-      let sent = await this.channel.send(row == 0 ? '> Choose a word here:' : (row == 6 ? 'Une this emote to end this turn:' : '⠀'));
-      if (row == 5) {
-        await sent.react('❌');
-      } else {
-        for (let col = 0; col < 5; col++)
-          await sent.react(Codenames.letters[row*5+col]);
-      }
-      const collector = sent.createReactionCollector((reaction, user) => user.id != sent.author.id);
+  start() {
+    return new Promise(async (resolve, reject) => {
+      let sent_language = await this.channel.send('Select your language:');
+      for (let flag of Object.keys(Dict))
+        await sent_language.react(flag);
 
-      collector.on('collect', (reaction, user) => {
-        let is_allowed = false;
-        for (let player of this.players) {
-          if (player.user.id == user.id && player.role == this.current_team && this.number_guesses > 0)
-            is_allowed = true;
+      const collected = await sent_language.awaitReactions((reaction, user) => user.id != sent_language.author.id, { max: 1 });
+
+      await this.assign_team();
+      this.init_board(Dict[collected.first().emoji.name]);
+
+
+
+      const sent_table = await this.channel.send(this.make_table(false));
+      const revealed_table = this.make_table(true);
+      const promises = this.players.slice(0,2).map(spymaster => spymaster.user.send(revealed_table));
+      const spymaster_tables = await Promise.all(promises);
+
+      const current_spymaster = this.spymasters[this.current_team];
+      this.clue_message = await this.channel.send('Setting up the board...');
+
+      this.request_clue();
+      this.edit_clue_message();
+
+      let collectors = [];
+      for (let row = 0; row < 6; row++) {
+        let sent = await this.channel.send(row == 0 ? '⠀\n\n> Choose a word here:' : (row == 5 ? 'Use this emote to end this turn:' : '⠀'));
+        if (row == 5) {
+          await sent.react('❌');
+        } else {
+          for (let col = 0; col < 5; col++)
+            await sent.react(this.cards[row*5+col].letter);
         }
+        const collector = sent.createReactionCollector((reaction, user) => user.id != sent.author.id);
+        collectors.push(collector);
 
-        if (is_allowed) {
+        collector.on('collect', (reaction, user) => {
+          let is_allowed = false;
+          for (let player of this.players) {
+            if (player.user.id == user.id && player.role == this.current_team && this.number_guesses > 0)
+              is_allowed = true;
+          }
 
-          if (reaction.emoji.name == '❌') {
-            this.number_guesses = undefined;
-            this.current_clue_word = undefined;
-            this.current_clue_number = undefined;
-            this.current_team = other_team(this.current_team);
-            this.request_clue();
+          if (is_allowed) {
 
-          } else {
+            if (reaction.emoji.name == '❌') {
+              this.next_turn();
+              this.edit_clue_message();
+              reaction.remove().then(() => sent.react('❌'));
 
-            let index = Codenames.letters.indexOf(reaction.emoji.name);
-            if (this.cards[index].revealed == true)
-              return;
-            this.cards[index].revealed = true;
-            sent_table.edit(this.make_table(this.cards, false));
-
-            if (this.cards[index].agent == '🕵️') {
-              this.channel.send('https://tenor.com/view/gun-revolver-gif-3435633');
-              this.channel.send(other_team(this.current_team) + ' team wins');
-              sent_table.edit(this.make_table(this.cards, true));
-              return;
-            }
-            else if (this.cards[index].agent == this.current_team) {
-              this.number_guesses -= 1;
             } else {
-              this.number_guesses = undefined;
-              this.current_clue_word = undefined;
-              this.current_clue_number = undefined;
-              this.current_team = other_team(this.current_team);
-              this.request_clue();
-            }
-            if (this.number_guesses == 0) {
-              this.number_guesses = undefined;
-              this.current_clue_word = undefined;
-              this.current_clue_number = undefined;
-              this.current_team = other_team(this.current_team);
-              this.request_clue();
-            }
-            for (let team of ['🟥', '🟦']) {
-              let has_won = true;
-              for (let card of this.cards) {
-                if (card.revealed == false && card.agent == team)
-                  has_won = false;
+
+              const filtered_cards = this.cards.filter(card => card.letter == reaction.emoji.name);
+              if (filtered_cards.length == 0) return;
+              const card = filtered_cards[0];
+
+              if (card.revealed == true) return;
+              card.revealed = true;
+
+              this.number_guesses -= 1;
+              if (Codenames.team_symbols.includes(card.agent))
+                this.number_agents[card.agent] -= 1;
+
+              if (card.agent != this.current_team || this.number_guesses == 0)
+                this.next_turn();
+              this.edit_clue_message();
+
+
+              // Find winner
+              let winner = undefined;
+
+              if (card.agent == '🕵️') {
+                this.channel.send('https://tenor.com/view/gun-revolver-gif-3435633');
+                winner = this.current_team;
               }
-              if (has_won) {
-                this.channel.send(team + ' team wins');
-                sent_table.edit(this.make_table(this.cards, true));
+
+              for (let team of Codenames.team_symbols)
+                if (this.number_agents[team] == 0)
+                  winner = team;
+
+              sent_table.edit(this.make_table(winner != undefined));
+              spymaster_tables.map(table => table.edit(this.make_table(true)));
+
+              if (winner != undefined) {
+                this.channel.send(winner + ' team wins');
+                this.number_guesses = 0;
+                for (let collector of collectors)
+                  collector.stop();
+                resolve();
               }
             }
           }
-
-
-          this.edit_clue_message();
-        }
-      });
-    }
-
+        });
+      }
+    });
   }
 }
