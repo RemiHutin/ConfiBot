@@ -9,6 +9,7 @@ client.on('ready', () => {
   Lobby.init(client,  {
     "timesbomb": require('./timesbomb.js'),
     "codenames": require('./codenames.js'),
+    "coup": require('./coup.js'),
     "coinflip": require('./coinflip.js')
   });
 });
