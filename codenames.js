@@ -70,7 +70,7 @@ module.exports = class Codenames {
 
     let message = '';
     for (let team of Codenames.team_symbols) {
-      message += 'Team ' + team + '\n';
+      message += team + ' Team\n';
       message += '> Spymaster: ' + this.spymasters[team].mention() + '\n';
       message += '> Spies: ' + this.players.filter(player => player.role == team).map(player => player.mention()).join(', ') + '\n';
     }
@@ -125,16 +125,17 @@ module.exports = class Codenames {
       this.clue_message.edit(this.current_team + ' spymaster sent a clue!\n'
         + 'The clue word is: **' + this.current_clue.word + '**\n'
         + 'The clue number is: **' + this.current_clue.number + '**\n'
-        + 'Team ' + this.current_team
-        + ' (' + this.players.filter(player => player.role == this.current_team).map(player => player.mention()).join(', ') + '), '
-        + 'you have **' + this.number_guesses + '** guess(es) left.');
+        + this.current_team + ' Team ' +
+        + '(' + this.players.filter(player => player.role == this.current_team).map(player => player.mention()).join(', ') + '), '
+        + 'you have **' + this.number_guesses + '** guess(es) left.'
+        + (this.current_clue.word == 'Maïté' ? '\nhttps://tenor.com/view/ortolan-mistermv-derri%c3%a8re-ma%c3%aft%c3%a9-gif-16740074' : ''));
     }
   }
 
   async request_clue() {
 
     const current_spymaster = this.spymasters[this.current_team];
-    await current_spymaster.user.send(current_spymaster.role + ', input your clue here. You need to input a word and a number, separated with a space (example : *APPLE 2*)');
+    await current_spymaster.user.send(current_spymaster.role + ', input your clue here. You need to input a word and a number, separated with a space (example : `WORD 2`)');
     const clue_collector = current_spymaster.user.dmChannel.createMessageCollector(m => m.author.id == current_spymaster.user.id);
 
     clue_collector.on('collect', message => {
@@ -154,9 +155,12 @@ module.exports = class Codenames {
         return;
       }
       message.reply('Sending clue to the spies!');
+
       this.current_clue = {word: words[0], number: number};
       this.number_guesses = number + 1;
       this.edit_clue_message();
+
+
       clue_collector.stop();
     });
   }
@@ -252,7 +256,7 @@ module.exports = class Codenames {
               spymaster_tables.map(table => table.edit(this.make_table(true)));
 
               if (winner != undefined) {
-                this.channel.send(winner + ' team wins');
+                this.channel.send(winner + ' Team wins');
                 this.number_guesses = 0;
                 for (let collector of collectors)
                   collector.stop();
