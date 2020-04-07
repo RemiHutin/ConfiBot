@@ -8,7 +8,8 @@ client.on('ready', () => {
   console.log('I am ready!');
   Lobby.init(client,  {
     "timesbomb": require('./timesbomb.js'),
-    "codenames": require('./codenames.js')
+    "codenames": require('./codenames.js'),
+    "coinflip": require('./coinflip.js')
   });
 });
 
