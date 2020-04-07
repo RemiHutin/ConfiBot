@@ -14,7 +14,6 @@ client.on('ready', () => {
 });
 
 
-const Codenames = require('./codenames.js')
 // Create an event listener for messages
 client.on('message', message => {
   if (message.content.substring(0, 1) == '!') {
@@ -29,6 +28,15 @@ client.on('message', message => {
         break;
       case 'pause':
         message.channel.send(':bell: @everyone C\'est la pause !!! :bell:');
+        break;
+      case 'count':
+        const now = Date.now();
+        const start = new Date(2020, 2, 16);
+        console.log(start);
+        const nb_days = Math.round((now - start) / 86400000);
+        const digits = nb_days.toString().split('').map(c => parseInt(c));
+        const emojis = digits.map(n => ["\u0030\u20E3", "\u0031\u20E3","\u0032\u20E3","\u0033\u20E3","\u0034\u20E3","\u0035\u20E3","\u0036\u20E3","\u0037\u20E3","\u0038\u20E3","\u0039\u20E3"][n]);
+        message.channel.setTopic('Jour ' + emojis.join(' '));
         break;
       default:
         message.channel.send('Unknown command');

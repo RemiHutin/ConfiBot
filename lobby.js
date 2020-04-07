@@ -1,7 +1,7 @@
 const Player = require('./player.js');
 
 const Lobby = {
-  debug_mode: false, // if true, one user can join a game several times
+  debug_mode: true, // if true, one user can join a game several times
 
   running_games: new Map(),
 
@@ -78,7 +78,9 @@ const Lobby = {
             collector.stop();
             channel.send('Starting a game of ' + game.name + '. ' + game.emoji);
             const game_instance = new game(players, channel);
+            await channel.setTopic('Playing ' + game.name + ' ' + game.emoji);
             await game_instance.start();
+            await channel.setTopic('');
             this.cancel(channel);
           }
         } else if (a.name == '❓') {

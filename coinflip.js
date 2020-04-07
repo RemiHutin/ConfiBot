@@ -5,7 +5,7 @@ const Player = require('./player.js');
 module.exports = class CoinFlip {
   static name = "CoinFlip Battle Royale";
   static emoji = "🎲";
-  static min_players = 2;
+  static min_players = 1;
   static max_players = 100;
 
   static rules() {
