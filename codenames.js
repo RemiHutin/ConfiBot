@@ -135,26 +135,31 @@ module.exports = class Codenames {
   async request_clue() {
 
     const current_spymaster = this.spymasters[this.current_team];
-    await current_spymaster.user.send(current_spymaster.role + ', input your clue here. You need to input a word and a number, separated with a space (example : `WORD 2`)');
+    const sent_message = await current_spymaster.user.send(current_spymaster.role + ', input your clue here. You need to input a word and a number, separated with a space (example : `WORD 2`)');
     const clue_collector = current_spymaster.user.dmChannel.createMessageCollector(m => m.author.id == current_spymaster.user.id);
 
-    clue_collector.on('collect', message => {
+    clue_collector.on('collect', async message => {
       const str = message.content;
       const words = str.split(' ');
       if (words.length != 2) {
-        message.reply('Invalid input, try again');
+        const sent_message2 = await message.reply('Invalid input, try again');
+        setTimeout(() => sent_message2.delete(), 10000);
         return;
       }
       const number = parseInt(words[1]);
       if (isNaN(number)) {
-        message.reply('Invalid input, try again');
+        const sent_message2 = await message.reply('Invalid input, try again');
+        setTimeout(() => sent_message2.delete(), 10000);
         return;
       }
       if (words[0].length <= 1) {
-        message.reply('Your word is too short');
+        const sent_message2 = await message.reply('Your word is too short');
+        setTimeout(() => sent_message2.delete(), 10000);
         return;
       }
-      message.reply('Sending clue to the spies!');
+      const sent_message2 = await message.reply('Sending clue to the spies!');
+      sent_message.delete();
+      setTimeout(() => sent_message2.delete(), 10000);
 
       this.current_clue = {word: words[0], number: number};
       this.number_guesses = number + 1;
