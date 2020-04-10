@@ -50,7 +50,23 @@ module.exports = class Codenames {
       text += symbol + modif + '**` ' + card.word + ' `**' + modif + symbol + '      ';
     }
 
-    return text + '\n\n⠀';
+    text += '\n\n';
+
+    const current_spymaster = this.spymasters[this.current_team];
+    if (this.current_clue == undefined) {
+      text += 'Waiting for a clue from ' + this.current_team + ' spymaster (' + current_spymaster.mention() + ')';
+    } else {
+      text += this.current_team + ' spymaster sent a clue!\n';
+      text += 'The clue word is: **' + this.current_clue.word + '**\n';
+      text += 'The clue number is: **' + this.current_clue.number + '**\n';
+      text += this.current_team + ' Team ';
+      text += '(' + this.players.filter(player => player.role == this.current_team).map(player => player.mention()).join(', ') + '), ';
+      text += 'you have **' + this.number_guesses + '** guess(es) left.';
+      if (this.current_clue.word == 'Maïté')
+        text += '\nhttps://tenor.com/view/ortolan-mistermv-derri%c3%a8re-ma%c3%aft%c3%a9-gif-16740074';
+    }
+
+    return text;
   }
 
   async assign_team() {
@@ -117,21 +133,6 @@ module.exports = class Codenames {
     });
   }
 
-  edit_clue_message() {
-    const current_spymaster = this.spymasters[this.current_team];
-    if (this.current_clue == undefined) {
-      this.clue_message.edit('Waiting for a clue from ' + this.current_team + ' spymaster (' + current_spymaster.mention() + ')');
-    } else {
-      this.clue_message.edit(this.current_team + ' spymaster sent a clue!\n'
-        + 'The clue word is: **' + this.current_clue.word + '**\n'
-        + 'The clue number is: **' + this.current_clue.number + '**\n'
-        + this.current_team + ' Team '
-        + '(' + this.players.filter(player => player.role == this.current_team).map(player => player.mention()).join(', ') + '), '
-        + 'you have **' + this.number_guesses + '** guess(es) left.'
-        + (this.current_clue.word == 'Maïté' ? '\nhttps://tenor.com/view/ortolan-mistermv-derri%c3%a8re-ma%c3%aft%c3%a9-gif-16740074' : ''));
-    }
-  }
-
   async request_clue() {
 
     const current_spymaster = this.spymasters[this.current_team];
@@ -163,7 +164,8 @@ module.exports = class Codenames {
 
       this.current_clue = {word: words[0], number: number};
       this.number_guesses = number + 1;
-      this.edit_clue_message();
+      this.public_table.edit(this.make_table(false));
+      this.spymaster_tables.map(table => table.edit(this.make_table(true)));
 
 
       clue_collector.stop();
@@ -189,17 +191,13 @@ module.exports = class Codenames {
       this.init_board(Dict[collected.first().emoji.name]);
 
 
-
-      const sent_table = await this.channel.send(this.make_table(false));
-      const revealed_table = this.make_table(true);
-      const promises = this.players.slice(0,2).map(spymaster => spymaster.user.send(revealed_table));
-      const spymaster_tables = await Promise.all(promises);
+      this.public_table = await this.channel.send(this.make_table(false));
+      const promises = this.players.slice(0,2).map(spymaster => spymaster.user.send(this.make_table(true)));
+      this.spymaster_tables = await Promise.all(promises);
 
       const current_spymaster = this.spymasters[this.current_team];
-      this.clue_message = await this.channel.send('Setting up the board...');
 
       this.request_clue();
-      this.edit_clue_message();
 
       let collectors = [];
       for (let row = 0; row < 6; row++) {
@@ -224,7 +222,6 @@ module.exports = class Codenames {
 
             if (reaction.emoji.name == '❌') {
               this.next_turn();
-              this.edit_clue_message();
               reaction.remove().then(() => sent.react('❌'));
 
             } else {
@@ -242,7 +239,6 @@ module.exports = class Codenames {
 
               if (card.agent != this.current_team || this.number_guesses == 0)
                 this.next_turn();
-              this.edit_clue_message();
 
 
               // Find winner
@@ -257,8 +253,8 @@ module.exports = class Codenames {
                 if (this.number_agents[team] == 0)
                   winner = team;
 
-              sent_table.edit(this.make_table(winner != undefined));
-              spymaster_tables.map(table => table.edit(this.make_table(true)));
+              this.public_table.edit(this.make_table(winner != undefined));
+              this.spymaster_tables.map(table => table.edit(this.make_table(true)));
 
               if (winner != undefined) {
                 this.channel.send(winner + ' Team wins');
